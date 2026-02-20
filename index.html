@@ -353,7 +353,23 @@
         <h2 class="text-3xl sm:text-4xl font-bold text-heading tracking-tight">Get notified when we launch</h2>
         <p class="mt-4 text-muted">Early access to TradeBridge and broker adapter releases. No spam.</p>
 
-        <form id="signup-form" class="mt-10 flex flex-col sm:flex-row gap-3" action="https://formspree.io/f/placeholder" method="POST">
+        <!-- Google Sheets integration:
+             1. Create a Google Sheet
+             2. Go to Extensions → Apps Script
+             3. Paste this script:
+
+                function doPost(e) {
+                  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+                  var data = JSON.parse(e.postData.contents);
+                  sheet.appendRow([new Date(), data.email]);
+                  return ContentService.createTextOutput(JSON.stringify({result: "success"}))
+                    .setMimeType(ContentService.MimeType.JSON);
+                }
+
+             4. Deploy → New deployment → Web app → Anyone can access
+             5. Copy the URL and replace the placeholder below
+        -->
+        <form id="signup-form" class="mt-10 flex flex-col sm:flex-row gap-3" action="YOUR_GOOGLE_APPS_SCRIPT_URL_HERE" method="POST">
           <input
             type="email"
             name="email"
@@ -435,17 +451,16 @@
 
       fetch(form.action, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email })
       })
-      .then(response => {
-        if (response.ok) {
-          successMsg.classList.remove('hidden');
-          errorMsg.classList.add('hidden');
-          form.reset();
-        } else {
-          throw new Error('Form submission failed');
-        }
+      .then(() => {
+        // Google Apps Script with no-cors returns opaque response,
+        // so we optimistically show success
+        successMsg.classList.remove('hidden');
+        errorMsg.classList.add('hidden');
+        form.reset();
       })
       .catch(() => {
         errorMsg.classList.remove('hidden');

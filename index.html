@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TradeBridge — One MCP Server. Every Broker.</title>
+  <meta name="description" content="TradeBridge is an open-source, broker-agnostic MCP server that lets AI agents execute trades across any brokerage through one unified interface.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0a0f',
+            surface: '#12121a',
+            border: '#1e1e2e',
+            accent: '#06b6d4',
+            'accent-hover': '#22d3ee',
+            muted: '#6b7280',
+            text: '#e5e7eb',
+            heading: '#f9fafb',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0a0a0f;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .dot-pattern {
+      background-image: radial-gradient(circle, #1e1e2e 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .glow {
+      box-shadow: 0 0 60px rgba(6, 182, 212, 0.15);
+    }
+    .terminal-line {
+      opacity: 0;
+      animation: fadeInLine 0.3s ease forwards;
+    }
+    @keyframes fadeInLine {
+      to { opacity: 1; }
+    }
+    .terminal-line:nth-child(1) { animation-delay: 0.2s; }
+    .terminal-line:nth-child(2) { animation-delay: 0.6s; }
+    .terminal-line:nth-child(3) { animation-delay: 1.2s; }
+    .terminal-line:nth-child(4) { animation-delay: 1.6s; }
+    .terminal-line:nth-child(5) { animation-delay: 2.2s; }
+    .terminal-line:nth-child(6) { animation-delay: 2.6s; }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0a0f; }
+    ::-webkit-scrollbar-thumb { background: #1e1e2e; border-radius: 3px; }
+  </style>
+</head>
+<body class="text-text antialiased">
+
+  <!-- Nav -->
+  <nav class="fixed top-0 w-full z-50 bg-bg/80 backdrop-blur-md border-b border-border">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2">
+        <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+        </svg>
+        <span class="font-semibold text-heading text-lg">TradeBridge</span>
+      </a>
+      <div class="hidden sm:flex items-center gap-6 text-sm text-muted">
+        <a href="#how-it-works" class="hover:text-text transition-colors">How it works</a>
+        <a href="#brokers" class="hover:text-text transition-colors">Brokers</a>
+        <a href="#roadmap" class="hover:text-text transition-colors">Roadmap</a>
+        <a href="#" class="inline-flex items-center gap-1.5 hover:text-text transition-colors">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="relative min-h-screen flex items-center dot-pattern pt-20">
+    <div class="absolute inset-0 bg-gradient-to-b from-bg via-transparent to-bg pointer-events-none"></div>
+    <div class="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted mb-8">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          Open source &middot; MIT License
+        </div>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-heading leading-tight tracking-tight">
+          One MCP server.<br>Every broker.
+        </h1>
+        <p class="mt-6 text-lg sm:text-xl text-muted max-w-2xl leading-relaxed">
+          TradeBridge connects your AI agent to Robinhood, Interactive Brokers, futures exchanges, and more — through a single unified interface.
+        </p>
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a href="#signup" class="inline-flex items-center px-6 py-3 rounded-lg bg-accent text-bg font-medium text-sm hover:bg-accent-hover transition-colors">
+            Get Early Access
+          </a>
+          <a href="#" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border text-text font-medium text-sm hover:border-muted transition-colors">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- Terminal mockup -->
+      <div class="mt-16 lg:mt-20 glow rounded-xl border border-border overflow-hidden bg-surface">
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-border bg-bg/50">
+          <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+          <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+          <span class="ml-3 text-xs text-muted font-mono">claude — tradebridge session</span>
+        </div>
+        <div class="p-6 font-mono text-sm leading-relaxed space-y-3 overflow-x-auto">
+          <div class="terminal-line">
+            <span class="text-muted">User:</span> <span class="text-text">"What's my Robinhood portfolio?"</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">Claude:</span> <span class="text-accent">[calls get_positions via TradeBridge]</span>
+          </div>
+          <div class="terminal-line pl-[4.5rem]">
+            <span class="text-text">You have 150 AAPL @ $198.50, 80 NVDA @ $875.20, 200 MSFT @ $425.00</span>
+          </div>
+          <div class="terminal-line mt-2">
+            <span class="text-muted">User:</span> <span class="text-text">"Now buy 50 shares of MSFT on IBKR"</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">Claude:</span> <span class="text-accent">[calls place_order via TradeBridge → broker:ibkr]</span>
+          </div>
+          <div class="terminal-line pl-[4.5rem]">
+            <span class="text-text">Order filled: 50 MSFT @ $425.12 on Interactive Brokers</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works" class="py-24 md:py-32 border-t border-border">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl sm:text-4xl font-bold text-heading tracking-tight">How it works</h2>
+      <p class="mt-4 text-muted max-w-xl">Three layers. One clean interface between your AI and every broker.</p>
+
+      <div class="mt-16 grid md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="p-6 rounded-xl border border-border bg-surface/50">
+          <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-heading">One Interface</h3>
+          <p class="mt-3 text-sm text-muted leading-relaxed">
+            Unified tool schema: <code class="text-accent text-xs bg-accent/10 px-1.5 py-0.5 rounded">get_quote</code>, <code class="text-accent text-xs bg-accent/10 px-1.5 py-0.5 rounded">place_order</code>, <code class="text-accent text-xs bg-accent/10 px-1.5 py-0.5 rounded">get_positions</code>, <code class="text-accent text-xs bg-accent/10 px-1.5 py-0.5 rounded">cancel_order</code>. Your AI agent learns one API regardless of the underlying broker.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="p-6 rounded-xl border border-border bg-surface/50">
+          <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-heading">Any Broker</h3>
+          <p class="mt-3 text-sm text-muted leading-relaxed">
+            Pluggable broker adapters. Robinhood, Interactive Brokers, futures brokers — each is a thin adapter. Write your own in under 100 lines.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="p-6 rounded-xl border border-border bg-surface/50">
+          <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-heading">AI-Native</h3>
+          <p class="mt-3 text-sm text-muted leading-relaxed">
+            Built for MCP from the ground up. Works with Claude Desktop, Claude Code, Cursor, and any MCP-compatible client. No REST wrappers or SDK shims.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supported Brokers -->
+  <section id="brokers" class="py-24 md:py-32 border-t border-border">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl sm:text-4xl font-bold text-heading tracking-tight">Supported Brokers</h2>
+      <p class="mt-4 text-muted">Connect to the brokers you already use.</p>
+
+      <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="flex flex-col items-center justify-center p-6 rounded-xl border border-border bg-surface/50 hover:border-accent/30 transition-colors">
+          <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-3">
+            <span class="text-xl font-bold text-accent">R</span>
+          </div>
+          <span class="text-sm font-medium text-heading">Robinhood</span>
+          <span class="text-xs text-accent mt-1">In Progress</span>
+        </div>
+
+        <div class="flex flex-col items-center justify-center p-6 rounded-xl border border-border bg-surface/50 hover:border-accent/30 transition-colors">
+          <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-3">
+            <span class="text-xl font-bold text-accent">IB</span>
+          </div>
+          <span class="text-sm font-medium text-heading">Interactive Brokers</span>
+          <span class="text-xs text-accent mt-1">In Progress</span>
+        </div>
+
+        <div class="flex flex-col items-center justify-center p-6 rounded-xl border border-border bg-surface/50 hover:border-accent/30 transition-colors">
+          <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-3">
+            <span class="text-xl font-bold text-accent">T</span>
+          </div>
+          <span class="text-sm font-medium text-heading">Tradovate</span>
+          <span class="text-xs text-muted mt-1">Planned</span>
+        </div>
+
+        <div class="flex flex-col items-center justify-center p-6 rounded-xl border border-border bg-surface/30 hover:border-accent/30 transition-colors border-dashed">
+          <div class="w-12 h-12 rounded-lg bg-border/50 flex items-center justify-center mb-3">
+            <span class="text-xl text-muted">+</span>
+          </div>
+          <span class="text-sm font-medium text-muted">More coming</span>
+          <span class="text-xs text-muted mt-1">Contribute yours</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Config Section -->
+  <section class="py-24 md:py-32 border-t border-border">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-2xl">
+        <h2 class="text-3xl sm:text-4xl font-bold text-heading tracking-tight">Add to your MCP config</h2>
+        <p class="mt-4 text-muted">One entry in <code class="text-accent text-sm bg-accent/10 px-1.5 py-0.5 rounded">claude_desktop_config.json</code>. That's it.</p>
+      </div>
+
+      <div class="mt-12 rounded-xl border border-border overflow-hidden bg-surface glow">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-border bg-bg/50">
+          <span class="text-xs text-muted font-mono">claude_desktop_config.json</span>
+          <button onclick="copyConfig()" id="copy-btn" class="text-xs text-muted hover:text-text transition-colors flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <span id="copy-text">Copy</span>
+          </button>
+        </div>
+        <pre class="p-6 font-mono text-sm leading-relaxed overflow-x-auto"><code>{
+  <span class="text-accent">"mcpServers"</span>: {
+    <span class="text-accent">"tradebridge"</span>: {
+      <span class="text-muted">"command"</span>: <span class="text-green-400">"uvx"</span>,
+      <span class="text-muted">"args"</span>: [<span class="text-green-400">"tradebridge"</span>, <span class="text-green-400">"--broker"</span>, <span class="text-green-400">"robinhood"</span>]
+    }
+  }
+}</code></pre>
+      </div>
+
+      <div class="mt-6 flex flex-wrap gap-4 text-sm text-muted">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          Works with Claude Desktop
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          Works with Claude Code
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          Works with Cursor
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roadmap -->
+  <section id="roadmap" class="py-24 md:py-32 border-t border-border">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl sm:text-4xl font-bold text-heading tracking-tight">Roadmap</h2>
+      <p class="mt-4 text-muted max-w-xl">Building the universal trading layer for AI, one phase at a time.</p>
+
+      <div class="mt-12 space-y-0 relative">
+        <!-- Timeline line -->
+        <div class="absolute left-[1.0625rem] top-3 bottom-3 w-px bg-border hidden sm:block"></div>
+
+        <!-- Phase 1 -->
+        <div class="relative flex gap-6 pb-10">
+          <div class="hidden sm:flex flex-shrink-0 w-[2.125rem] justify-center pt-1.5">
+            <div class="w-3 h-3 rounded-full bg-accent ring-4 ring-accent/20"></div>
+          </div>
+          <div>
+            <div class="flex items-center gap-3 flex-wrap">
+              <h3 class="text-lg font-semibold text-heading">Phase 1: Equities</h3>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">In Progress</span>
+            </div>
+            <p class="mt-2 text-sm text-muted">Robinhood and Interactive Brokers adapters. Core tool schema: <code class="text-accent text-xs bg-accent/10 px-1 py-0.5 rounded">get_quote</code>, <code class="text-accent text-xs bg-accent/10 px-1 py-0.5 rounded">place_order</code>, <code class="text-accent text-xs bg-accent/10 px-1 py-0.5 rounded">get_positions</code>, <code class="text-accent text-xs bg-accent/10 px-1 py-0.5 rounded">cancel_order</code>.</p>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="relative flex gap-6 pb-10">
+          <div class="hidden sm:flex flex-shrink-0 w-[2.125rem] justify-center pt-1.5">
+            <div class="w-3 h-3 rounded-full bg-border ring-4 ring-bg"></div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-heading">Phase 2: Futures</h3>
+            <p class="mt-2 text-sm text-muted">Tradovate and AMP adapters. Futures-specific order types and contract specifications.</p>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="relative flex gap-6 pb-10">
+          <div class="hidden sm:flex flex-shrink-0 w-[2.125rem] justify-center pt-1.5">
+            <div class="w-3 h-3 rounded-full bg-border ring-4 ring-bg"></div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-heading">Phase 3: Options &amp; Risk</h3>
+            <p class="mt-2 text-sm text-muted">Options chains and trading. Portfolio risk tools and analytics. Multi-broker routing — execute across brokers in a single workflow.</p>
+          </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="relative flex gap-6">
+          <div class="hidden sm:flex flex-shrink-0 w-[2.125rem] justify-center pt-1.5">
+            <div class="w-3 h-3 rounded-full bg-border ring-4 ring-bg"></div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-heading">Phase 4: Hosted Version</h3>
+            <p class="mt-2 text-sm text-muted">Managed TradeBridge with real-time data feeds, webhook integrations, and hosted broker connections. No local setup needed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Email Signup -->
+  <section id="signup" class="py-24 md:py-32 border-t border-border">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="max-w-xl mx-auto text-center">
+        <h2 class="text-3xl sm:text-4xl font-bold text-heading tracking-tight">Get notified when we launch</h2>
+        <p class="mt-4 text-muted">Early access to TradeBridge and broker adapter releases. No spam.</p>
+
+        <form id="signup-form" class="mt-10 flex flex-col sm:flex-row gap-3" action="https://formspree.io/f/placeholder" method="POST">
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="you@example.com"
+            class="flex-1 px-4 py-3 rounded-lg bg-surface border border-border text-text placeholder:text-muted text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-colors"
+          >
+          <button
+            type="submit"
+            id="submit-btn"
+            class="px-6 py-3 rounded-lg bg-accent text-bg font-medium text-sm hover:bg-accent-hover transition-colors whitespace-nowrap"
+          >
+            Get Early Access
+          </button>
+        </form>
+
+        <p id="form-success" class="hidden mt-4 text-sm text-accent">Thanks! We'll be in touch.</p>
+        <p id="form-error" class="hidden mt-4 text-sm text-red-400">Something went wrong. Try again or email us directly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-border py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+          </svg>
+          <span class="font-semibold text-heading">TradeBridge</span>
+          <span class="text-xs text-muted ml-2">MIT License</span>
+        </div>
+
+        <div class="flex items-center gap-6 text-sm text-muted">
+          <a href="#" class="hover:text-text transition-colors flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="#" class="hover:text-text transition-colors flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            X / Twitter
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Copy config to clipboard
+    function copyConfig() {
+      const config = `{
+  "mcpServers": {
+    "tradebridge": {
+      "command": "uvx",
+      "args": ["tradebridge", "--broker", "robinhood"]
+    }
+  }
+}`;
+      navigator.clipboard.writeText(config).then(() => {
+        const btn = document.getElementById('copy-text');
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      });
+    }
+
+    // Form handling
+    const form = document.getElementById('signup-form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const email = form.querySelector('input[name="email"]').value;
+      const btn = document.getElementById('submit-btn');
+      const successMsg = document.getElementById('form-success');
+      const errorMsg = document.getElementById('form-error');
+
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+
+      fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email: email })
+      })
+      .then(response => {
+        if (response.ok) {
+          successMsg.classList.remove('hidden');
+          errorMsg.classList.add('hidden');
+          form.reset();
+        } else {
+          throw new Error('Form submission failed');
+        }
+      })
+      .catch(() => {
+        errorMsg.classList.remove('hidden');
+        successMsg.classList.add('hidden');
+      })
+      .finally(() => {
+        btn.textContent = 'Get Early Access';
+        btn.disabled = false;
+      });
+    });
+  </script>
+</body>
+</html>

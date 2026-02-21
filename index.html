@@ -3,67 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VestBridge — One MCP Server. Every Broker.</title>
-  <meta name="description" content="VestBridge is an open-source, broker-agnostic MCP server that lets AI agents execute trades across any brokerage through one unified interface.">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>VestBridge — Your Agent's Interface to the Financial Markets</title>
+  <meta name="description" content="VestBridge connects AI agents to brokerages with reliable order execution, risk management, and multi-broker support. Works with Claude, ChatGPT, Gemini, and more.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            bg: '#0a0a0f',
-            surface: '#12121a',
-            border: '#1e1e2e',
-            accent: '#06b6d4',
-            'accent-hover': '#22d3ee',
-            muted: '#6b7280',
-            text: '#e5e7eb',
-            heading: '#f9fafb',
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-        },
-      },
-    }
-  </script>
   <style>
-    body {
-      background-color: #0a0a0f;
-      font-family: 'Inter', system-ui, sans-serif;
-    }
-    .dot-pattern {
-      background-image: radial-gradient(circle, #1e1e2e 1px, transparent 1px);
-      background-size: 24px 24px;
-    }
-    .glow {
-      box-shadow: 0 0 60px rgba(6, 182, 212, 0.15);
-    }
-    .terminal-line {
-      opacity: 0;
-      animation: fadeInLine 0.3s ease forwards;
-    }
-    @keyframes fadeInLine {
-      to { opacity: 1; }
-    }
-    .terminal-line:nth-child(1) { animation-delay: 0.2s; }
-    .terminal-line:nth-child(2) { animation-delay: 0.6s; }
-    .terminal-line:nth-child(3) { animation-delay: 1.2s; }
-    .terminal-line:nth-child(4) { animation-delay: 1.6s; }
-    .terminal-line:nth-child(5) { animation-delay: 2.2s; }
-    .terminal-line:nth-child(6) { animation-delay: 2.6s; }
-
-    /* Scrollbar styling */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0a0a0f; }
-    ::-webkit-scrollbar-thumb { background: #1e1e2e; border-radius: 3px; }
+    /* Prevent FOUC — hide body until Tailwind CSS loads */
+    body:not(.loaded) { opacity: 0; }
+    body.loaded { opacity: 1; transition: opacity 0.1s ease; }
   </style>
 </head>
-<body class="text-text antialiased">
+<body class="bg-bg text-text antialiased font-sans">
 
   <!-- Nav -->
   <nav class="fixed top-0 w-full z-50 bg-bg/80 backdrop-blur-md border-b border-border">
@@ -93,13 +45,13 @@
       <div class="max-w-3xl">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border text-xs text-muted mb-8">
           <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-          Open source &middot; MIT License
+          Open source &middot; Runs locally &middot; MIT License
         </div>
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-heading leading-tight tracking-tight">
-          One MCP server.<br>Every broker.
+          Your agent's interface<br>to the financial markets.
         </h1>
         <p class="mt-6 text-lg sm:text-xl text-muted max-w-2xl leading-relaxed">
-          VestBridge connects your AI agent to Robinhood, Interactive Brokers, futures exchanges, and more — through a single unified interface.
+          VestBridge connects your AI agent to Robinhood, Interactive Brokers, and more — with reliable execution limits and built-in risk management. Open source and runs entirely on your machine.
         </p>
         <div class="mt-10 flex flex-wrap gap-4">
           <a href="#signup" class="inline-flex items-center px-6 py-3 rounded-lg bg-accent text-bg font-medium text-sm hover:bg-accent-hover transition-colors">
@@ -118,26 +70,57 @@
           <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
           <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
           <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
-          <span class="ml-3 text-xs text-muted font-mono">claude — vestbridge session</span>
+          <span class="ml-3 text-xs text-muted font-mono">claude — mcp: vestbridge</span>
         </div>
         <div class="p-6 font-mono text-sm leading-relaxed space-y-3 overflow-x-auto">
           <div class="terminal-line">
-            <span class="text-muted">User:</span> <span class="text-text">"What's my Robinhood portfolio?"</span>
+            <span class="text-muted">User:</span> <span class="text-text">"Give me $1000 of exposure in the AI industry."</span>
           </div>
           <div class="terminal-line">
-            <span class="text-muted">Claude:</span> <span class="text-accent">[calls get_positions via VestBridge]</span>
-          </div>
-          <div class="terminal-line pl-[4.5rem]">
-            <span class="text-text">You have 150 AAPL @ $198.50, 80 NVDA @ $875.20, 200 MSFT @ $425.00</span>
-          </div>
-          <div class="terminal-line mt-2">
-            <span class="text-muted">User:</span> <span class="text-text">"Now buy 50 shares of MSFT on IBKR"</span>
+            <span class="text-muted">Agent:</span> <span class="text-muted/70 italic">Planning allocation across AI sector...</span>
           </div>
           <div class="terminal-line">
-            <span class="text-muted">Claude:</span> <span class="text-accent">[calls place_order via VestBridge → broker:ibkr]</span>
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-accent">[get_quote NVDA]</span> <span class="text-text">$142.50</span> <span class="text-accent">[get_quote MSFT]</span> <span class="text-text">$425.12</span> <span class="text-accent">[get_quote GOOG]</span> <span class="text-text">$178.30</span>
           </div>
-          <div class="terminal-line pl-[4.5rem]">
-            <span class="text-text">Order filled: 50 MSFT @ $425.12 on Interactive Brokers</span>
+          <div class="terminal-line">
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-muted/70 italic">Splitting $1000: 40% NVDA, 35% MSFT, 25% GOOG</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-accent">[place_order NVDA 2 shares → robinhood]</span> <span class="text-green-400">filled @ $142.50</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-accent">[place_order MSFT 1 share → robinhood]</span> <span class="text-green-400">filled @ $425.12</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-accent">[place_order GOOG 1 share → robinhood]</span> <span class="text-green-400">filled @ $178.30</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-text">Done. Invested $888.42 across 3 AI positions. $111.58 remaining (GOOG</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-text">and NVDA don't divide evenly at current prices).</span>
+          </div>
+
+          <div class="terminal-line border-t border-border/50 pt-4 mt-4">
+            <span class="text-muted">User:</span> <span class="text-text">"Sell 100 shares of Apple with minimal transaction cost."</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">Agent:</span> <span class="text-muted/70 italic">Checking positions across all connected brokers...</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-accent">[get_positions AAPL → robinhood]</span> <span class="text-text">60 shares</span> <span class="text-accent">[get_positions AAPL → ibkr]</span> <span class="text-text">85 shares</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-muted/70 italic">Robinhood: $0 commission. IBKR: $0.005/share. Routing 60 to RH, 40 to IBKR.</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-accent">[place_order sell AAPL 60 → robinhood]</span> <span class="text-green-400">filled @ $198.50</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-accent">[place_order sell AAPL 40 → ibkr]</span> <span class="text-green-400">filled @ $198.48</span>
+          </div>
+          <div class="terminal-line">
+            <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-text">Sold 100 AAPL for $19,849.20. Total fees: $0.20 (IBKR only).</span>
           </div>
         </div>
       </div>
@@ -150,7 +133,7 @@
       <h2 class="text-3xl sm:text-4xl font-bold text-heading tracking-tight">How it works</h2>
       <p class="mt-4 text-muted max-w-xl">Three layers. One clean interface between your AI and every broker.</p>
 
-      <div class="mt-16 grid md:grid-cols-3 gap-8">
+      <div class="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <!-- Card 1 -->
         <div class="p-6 rounded-xl border border-border bg-surface/50">
           <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mb-5">
@@ -160,7 +143,7 @@
           </div>
           <h3 class="text-lg font-semibold text-heading">One Interface</h3>
           <p class="mt-3 text-sm text-muted leading-relaxed">
-            Unified tool schema: <code class="text-accent text-xs bg-accent/10 px-1.5 py-0.5 rounded">get_quote</code>, <code class="text-accent text-xs bg-accent/10 px-1.5 py-0.5 rounded">place_order</code>, <code class="text-accent text-xs bg-accent/10 px-1.5 py-0.5 rounded">get_positions</code>, <code class="text-accent text-xs bg-accent/10 px-1.5 py-0.5 rounded">cancel_order</code>. Your AI agent learns one API regardless of the underlying broker.
+            Unified tool schema: <code class="code-inline">get_quote</code>, <code class="code-inline">place_order</code>, <code class="code-inline">get_positions</code>, <code class="code-inline">cancel_order</code>. Your AI agent learns one API regardless of the underlying broker.
           </p>
         </div>
 
@@ -173,7 +156,7 @@
           </div>
           <h3 class="text-lg font-semibold text-heading">Any Broker</h3>
           <p class="mt-3 text-sm text-muted leading-relaxed">
-            Pluggable broker adapters. Robinhood, Interactive Brokers, futures brokers — each is a thin adapter. Write your own in under 100 lines.
+            Pre-built adapters for Robinhood, Interactive Brokers, and futures brokers. Connect multiple brokers at once and route orders across them.
           </p>
         </div>
 
@@ -184,9 +167,22 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </div>
-          <h3 class="text-lg font-semibold text-heading">AI-Native</h3>
+          <h3 class="text-lg font-semibold text-heading">Every AI Agent</h3>
           <p class="mt-3 text-sm text-muted leading-relaxed">
-            Built for MCP from the ground up. Works with Claude Desktop, Claude Code, Cursor, and any MCP-compatible client. No REST wrappers or SDK shims.
+            Built on MCP with stdio and SSE transports. Works with Claude, ChatGPT, Gemini, Cursor, and any agent that speaks MCP or connects over HTTP.
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="p-6 rounded-xl border border-border bg-surface/50">
+          <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mb-5">
+            <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-heading">Runs Locally</h3>
+          <p class="mt-3 text-sm text-muted leading-relaxed">
+            Your broker credentials never leave your machine. No third-party servers, no cloud relay. VestBridge runs as a local process — API keys, passwords, and tokens stay on your hardware.
           </p>
         </div>
       </div>
@@ -235,52 +231,146 @@
     </div>
   </section>
 
-  <!-- Config Section -->
+  <!-- Get Started Section -->
   <section class="py-24 md:py-32 border-t border-border">
     <div class="max-w-6xl mx-auto px-6">
       <div class="max-w-2xl">
-        <h2 class="text-3xl sm:text-4xl font-bold text-heading tracking-tight">Add to your MCP config</h2>
-        <p class="mt-4 text-muted">One entry in <code class="text-accent text-sm bg-accent/10 px-1.5 py-0.5 rounded">claude_desktop_config.json</code>. That's it.</p>
+        <h2 class="text-3xl sm:text-4xl font-bold text-heading tracking-tight">Get started in two commands</h2>
+        <p class="mt-4 text-muted">Install VestBridge, then connect it to your AI client. That's it.</p>
       </div>
 
-      <div class="mt-12 rounded-xl border border-border overflow-hidden bg-surface glow">
-        <div class="flex items-center justify-between px-4 py-3 border-b border-border bg-bg/50">
-          <span class="text-xs text-muted font-mono">claude_desktop_config.json</span>
-          <button onclick="copyConfig()" id="copy-btn" class="text-xs text-muted hover:text-text transition-colors flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-            <span id="copy-text">Copy</span>
-          </button>
+      <div class="mt-12 space-y-10">
+
+        <!-- Step 1: Install -->
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-accent/10 text-accent text-xs font-bold border border-accent/20">1</span>
+            <h3 class="text-sm font-semibold text-heading uppercase tracking-wide">Install</h3>
+          </div>
+
+          <!-- Install tabs -->
+          <div class="flex items-center gap-1 mb-0" id="install-tabs">
+            <button data-install="curl" class="install-tab px-4 py-2 rounded-t-lg text-xs font-medium border border-b-0 border-border bg-surface text-accent cursor-pointer">curl</button>
+            <button data-install="pip" class="install-tab px-4 py-2 rounded-t-lg text-xs font-medium border border-b-0 border-transparent text-muted hover:text-text cursor-pointer transition-colors">pip</button>
+            <button data-install="npm" class="install-tab px-4 py-2 rounded-t-lg text-xs font-medium border border-b-0 border-transparent text-muted hover:text-text cursor-pointer transition-colors">npm</button>
+            <button data-install="brew" class="install-tab px-4 py-2 rounded-t-lg text-xs font-medium border border-b-0 border-transparent text-muted hover:text-text cursor-pointer transition-colors">brew</button>
+          </div>
+
+          <div class="rounded-xl rounded-tl-none border border-border overflow-hidden bg-surface">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-border bg-bg/50">
+              <span class="text-xs text-muted font-mono">terminal</span>
+              <button id="copy-install-btn" class="text-xs text-muted hover:text-text transition-colors flex items-center gap-1.5 cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <span id="copy-install-text">Copy</span>
+              </button>
+            </div>
+
+            <pre id="install-curl" class="install-panel p-6 font-mono text-sm leading-relaxed overflow-x-auto"><code><span class="text-accent">$</span> <span class="text-text">curl -sSL https://vestbridge.dev/install.sh | sh</span></code></pre>
+            <pre id="install-pip" class="install-panel hidden p-6 font-mono text-sm leading-relaxed overflow-x-auto"><code><span class="text-accent">$</span> <span class="text-text">pip install vestbridge</span></code></pre>
+            <pre id="install-npm" class="install-panel hidden p-6 font-mono text-sm leading-relaxed overflow-x-auto"><code><span class="text-accent">$</span> <span class="text-text">npx vestbridge</span></code></pre>
+            <pre id="install-brew" class="install-panel hidden p-6 font-mono text-sm leading-relaxed overflow-x-auto"><code><span class="text-accent">$</span> <span class="text-text">brew install vestbridge</span></code></pre>
+          </div>
         </div>
-        <pre class="p-6 font-mono text-sm leading-relaxed overflow-x-auto"><code>{
+
+        <!-- Step 2: Connect to your MCP client -->
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="flex items-center justify-center w-7 h-7 rounded-full bg-accent/10 text-accent text-xs font-bold border border-accent/20">2</span>
+            <h3 class="text-sm font-semibold text-heading uppercase tracking-wide">Connect to your AI client</h3>
+          </div>
+
+          <!-- Config tabs -->
+          <div class="flex items-center gap-1 mb-0" id="config-tabs">
+            <button data-config="claude" class="config-tab px-4 py-2 rounded-t-lg text-xs font-medium border border-b-0 border-border bg-surface text-accent cursor-pointer">Claude Desktop</button>
+            <button data-config="claudecode" class="config-tab px-4 py-2 rounded-t-lg text-xs font-medium border border-b-0 border-transparent text-muted hover:text-text cursor-pointer transition-colors">Claude Code</button>
+            <button data-config="cursor" class="config-tab px-4 py-2 rounded-t-lg text-xs font-medium border border-b-0 border-transparent text-muted hover:text-text cursor-pointer transition-colors">Cursor</button>
+            <button data-config="chatgpt" class="config-tab px-4 py-2 rounded-t-lg text-xs font-medium border border-b-0 border-transparent text-muted hover:text-text cursor-pointer transition-colors">ChatGPT</button>
+          </div>
+
+          <div class="rounded-xl rounded-tl-none border border-border overflow-hidden bg-surface glow">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-border bg-bg/50">
+              <span class="text-xs text-muted font-mono" id="config-filename">claude_desktop_config.json</span>
+              <button id="copy-btn" class="text-xs text-muted hover:text-text transition-colors flex items-center gap-1.5 cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <span id="copy-text">Copy</span>
+              </button>
+            </div>
+
+            <!-- Claude Desktop config -->
+            <pre id="config-claude" class="config-panel p-6 font-mono text-sm leading-relaxed overflow-x-auto"><code>{
   <span class="text-accent">"mcpServers"</span>: {
     <span class="text-accent">"vestbridge"</span>: {
-      <span class="text-muted">"command"</span>: <span class="text-green-400">"uvx"</span>,
-      <span class="text-muted">"args"</span>: [<span class="text-green-400">"vestbridge"</span>, <span class="text-green-400">"--broker"</span>, <span class="text-green-400">"robinhood"</span>]
+      <span class="text-muted">"command"</span>: <span class="text-green-400">"vestbridge"</span>,
+      <span class="text-muted">"args"</span>: [<span class="text-green-400">"--broker"</span>, <span class="text-green-400">"robinhood"</span>]
     }
   }
 }</code></pre>
+
+            <!-- Claude Code config -->
+            <pre id="config-claudecode" class="config-panel hidden p-6 font-mono text-sm leading-relaxed overflow-x-auto"><code><span class="text-accent">$</span> <span class="text-text">claude mcp add vestbridge -- vestbridge --broker robinhood</span></code></pre>
+
+            <!-- Cursor config -->
+            <pre id="config-cursor" class="config-panel hidden p-6 font-mono text-sm leading-relaxed overflow-x-auto"><code><span class="text-muted">// .cursor/mcp.json</span>
+{
+  <span class="text-accent">"mcpServers"</span>: {
+    <span class="text-accent">"vestbridge"</span>: {
+      <span class="text-muted">"command"</span>: <span class="text-green-400">"vestbridge"</span>,
+      <span class="text-muted">"args"</span>: [<span class="text-green-400">"--broker"</span>, <span class="text-green-400">"robinhood"</span>]
+    }
+  }
+}</code></pre>
+
+            <!-- ChatGPT / SSE config -->
+            <pre id="config-chatgpt" class="config-panel hidden p-6 font-mono text-sm leading-relaxed overflow-x-auto"><code><span class="text-muted"># Start VestBridge as an SSE server for remote clients</span>
+<span class="text-accent">$</span> <span class="text-text">vestbridge --broker robinhood --transport sse --port 8080</span>
+
+<span class="text-muted"># Connect ChatGPT, Gemini, or any MCP-over-HTTP client</span>
+<span class="text-muted"># to http://localhost:8080/sse</span></code></pre>
+          </div>
+        </div>
+
       </div>
 
-      <div class="mt-6 flex flex-wrap gap-4 text-sm text-muted">
+      <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted">
         <div class="flex items-center gap-2">
           <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
           </svg>
-          Works with Claude Desktop
+          Claude Desktop
         </div>
         <div class="flex items-center gap-2">
           <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
           </svg>
-          Works with Claude Code
+          Claude Code
         </div>
         <div class="flex items-center gap-2">
           <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
           </svg>
-          Works with Cursor
+          ChatGPT
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          Gemini
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          Cursor
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          Any MCP client
         </div>
       </div>
     </div>
@@ -298,7 +388,7 @@
 
         <!-- Phase 1 -->
         <div class="relative flex gap-6 pb-10">
-          <div class="hidden sm:flex flex-shrink-0 w-[2.125rem] justify-center pt-1.5">
+          <div class="hidden sm:flex shrink-0 w-[2.125rem] justify-center pt-1.5">
             <div class="w-3 h-3 rounded-full bg-accent ring-4 ring-accent/20"></div>
           </div>
           <div>
@@ -306,13 +396,13 @@
               <h3 class="text-lg font-semibold text-heading">Phase 1: Equities</h3>
               <span class="text-xs px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">In Progress</span>
             </div>
-            <p class="mt-2 text-sm text-muted">Robinhood and Interactive Brokers adapters. Core tool schema: <code class="text-accent text-xs bg-accent/10 px-1 py-0.5 rounded">get_quote</code>, <code class="text-accent text-xs bg-accent/10 px-1 py-0.5 rounded">place_order</code>, <code class="text-accent text-xs bg-accent/10 px-1 py-0.5 rounded">get_positions</code>, <code class="text-accent text-xs bg-accent/10 px-1 py-0.5 rounded">cancel_order</code>.</p>
+            <p class="mt-2 text-sm text-muted">Robinhood and Interactive Brokers adapters. Core tool schema: <code class="code-inline">get_quote</code>, <code class="code-inline">place_order</code>, <code class="code-inline">get_positions</code>, <code class="code-inline">cancel_order</code>.</p>
           </div>
         </div>
 
         <!-- Phase 2 -->
         <div class="relative flex gap-6 pb-10">
-          <div class="hidden sm:flex flex-shrink-0 w-[2.125rem] justify-center pt-1.5">
+          <div class="hidden sm:flex shrink-0 w-[2.125rem] justify-center pt-1.5">
             <div class="w-3 h-3 rounded-full bg-border ring-4 ring-bg"></div>
           </div>
           <div>
@@ -323,7 +413,7 @@
 
         <!-- Phase 3 -->
         <div class="relative flex gap-6 pb-10">
-          <div class="hidden sm:flex flex-shrink-0 w-[2.125rem] justify-center pt-1.5">
+          <div class="hidden sm:flex shrink-0 w-[2.125rem] justify-center pt-1.5">
             <div class="w-3 h-3 rounded-full bg-border ring-4 ring-bg"></div>
           </div>
           <div>
@@ -334,7 +424,7 @@
 
         <!-- Phase 4 -->
         <div class="relative flex gap-6">
-          <div class="hidden sm:flex flex-shrink-0 w-[2.125rem] justify-center pt-1.5">
+          <div class="hidden sm:flex shrink-0 w-[2.125rem] justify-center pt-1.5">
             <div class="w-3 h-3 rounded-full bg-border ring-4 ring-bg"></div>
           </div>
           <div>
@@ -353,23 +443,7 @@
         <h2 class="text-3xl sm:text-4xl font-bold text-heading tracking-tight">Get notified when we launch</h2>
         <p class="mt-4 text-muted">Early access to VestBridge and broker adapter releases. No spam.</p>
 
-        <!-- Google Sheets integration:
-             1. Create a Google Sheet
-             2. Go to Extensions → Apps Script
-             3. Paste this script:
-
-                function doPost(e) {
-                  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-                  var data = JSON.parse(e.postData.contents);
-                  sheet.appendRow([new Date(), data.email]);
-                  return ContentService.createTextOutput(JSON.stringify({result: "success"}))
-                    .setMimeType(ContentService.MimeType.JSON);
-                }
-
-             4. Deploy → New deployment → Web app → Anyone can access
-             5. Copy the URL and replace the placeholder below
-        -->
-        <form id="signup-form" class="mt-10 flex flex-col sm:flex-row gap-3" action="YOUR_GOOGLE_APPS_SCRIPT_URL_HERE" method="POST">
+        <form id="signup-form" class="mt-10 flex flex-col sm:flex-row gap-3" action="https://script.google.com/macros/s/AKfycbwHm0KANB-SRvhZYNI1y5K0kyJxEvIEr002Jl8bFd10-VgwaXbshKTN12RHJ0EsZmg/exec" method="POST">
           <input
             type="email"
             name="email"
@@ -380,7 +454,7 @@
           <button
             type="submit"
             id="submit-btn"
-            class="px-6 py-3 rounded-lg bg-accent text-bg font-medium text-sm hover:bg-accent-hover transition-colors whitespace-nowrap"
+            class="px-6 py-3 rounded-lg bg-accent text-bg font-medium text-sm hover:bg-accent-hover transition-colors whitespace-nowrap cursor-pointer"
           >
             Get Early Access
           </button>
@@ -418,59 +492,6 @@
     </div>
   </footer>
 
-  <script>
-    // Copy config to clipboard
-    function copyConfig() {
-      const config = `{
-  "mcpServers": {
-    "vestbridge": {
-      "command": "uvx",
-      "args": ["vestbridge", "--broker", "robinhood"]
-    }
-  }
-}`;
-      navigator.clipboard.writeText(config).then(() => {
-        const btn = document.getElementById('copy-text');
-        btn.textContent = 'Copied!';
-        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
-      });
-    }
-
-    // Form handling
-    const form = document.getElementById('signup-form');
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const email = form.querySelector('input[name="email"]').value;
-      const btn = document.getElementById('submit-btn');
-      const successMsg = document.getElementById('form-success');
-      const errorMsg = document.getElementById('form-error');
-
-      btn.textContent = 'Sending...';
-      btn.disabled = true;
-
-      fetch(form.action, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
-      })
-      .then(() => {
-        // Google Apps Script with no-cors returns opaque response,
-        // so we optimistically show success
-        successMsg.classList.remove('hidden');
-        errorMsg.classList.add('hidden');
-        form.reset();
-      })
-      .catch(() => {
-        errorMsg.classList.remove('hidden');
-        successMsg.classList.add('hidden');
-      })
-      .finally(() => {
-        btn.textContent = 'Get Early Access';
-        btn.disabled = false;
-      });
-    });
-  </script>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

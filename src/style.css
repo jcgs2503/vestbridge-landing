@@ -27,10 +27,16 @@ body {
   border-radius: 0.25rem;
 }
 
-/* Terminal line animation */
-.terminal-line {
+/* Terminal line animation — lines start hidden, animate in */
+.demo-lines .terminal-line {
   opacity: 0;
   animation: fadeInLine 0.3s ease forwards;
+}
+
+/* Paused state — used to reset animations on tab switch */
+.demo-lines.paused .terminal-line {
+  animation: none;
+  opacity: 0;
 }
 
 @keyframes fadeInLine {
@@ -39,20 +45,90 @@ body {
   }
 }
 
-.terminal-line:nth-child(1)  { animation-delay: 0.2s; }  /* User prompt */
-.terminal-line:nth-child(2)  { animation-delay: 0.6s; }  /* Agent: Analyzing... */
-.terminal-line:nth-child(3)  { animation-delay: 1.2s; }  /* get_positions */
-.terminal-line:nth-child(4)  { animation-delay: 1.6s; }  /* portfolio breakdown */
-.terminal-line:nth-child(5)  { animation-delay: 2.2s; }  /* Top AI pick */
-.terminal-line:nth-child(6)  { animation-delay: 2.8s; }  /* place_order NVDA $20k */
-.terminal-line:nth-child(7)  { animation-delay: 3.2s; }  /* BLOCKED */
-.terminal-line:nth-child(8)  { animation-delay: 3.6s; }  /* Mandate limit */
-.terminal-line:nth-child(9)  { animation-delay: 4.2s; }  /* Adjusting strategy */
-.terminal-line:nth-child(10) { animation-delay: 4.8s; }  /* NVDA filled */
-.terminal-line:nth-child(11) { animation-delay: 5.2s; }  /* AVGO filled */
-.terminal-line:nth-child(12) { animation-delay: 5.6s; }  /* AMD filled */
-.terminal-line:nth-child(13) { animation-delay: 6.2s; }  /* Done */
-.terminal-line:nth-child(14) { animation-delay: 6.6s; }  /* Mandate enforced */
+/* Blocked line flash — red glow pulse on appear */
+@keyframes blockedFlash {
+  0%   { background-color: transparent; }
+  30%  { background-color: rgba(248, 113, 113, 0.12); }
+  100% { background-color: transparent; }
+}
+
+.demo-lines .blocked-line {
+  border-radius: 0.25rem;
+}
+
+.demo-lines:not(.paused) .blocked-line {
+  animation: fadeInLine 0.3s ease forwards, blockedFlash 0.8s ease 0.3s;
+}
+
+/* Filled line flash — green glow pulse on appear */
+@keyframes filledFlash {
+  0%   { background-color: transparent; }
+  30%  { background-color: rgba(74, 222, 128, 0.08); }
+  100% { background-color: transparent; }
+}
+
+.demo-lines .filled-line {
+  border-radius: 0.25rem;
+}
+
+.demo-lines:not(.paused) .filled-line {
+  animation: fadeInLine 0.3s ease forwards, filledFlash 0.6s ease 0.3s;
+}
+
+/* ── Demo 1: Mandate Enforcement (14 lines) ── */
+#demo-mandate .terminal-line:nth-child(1)  { animation-delay: 0.2s; }
+#demo-mandate .terminal-line:nth-child(2)  { animation-delay: 0.6s; }
+#demo-mandate .terminal-line:nth-child(3)  { animation-delay: 1.2s; }
+#demo-mandate .terminal-line:nth-child(4)  { animation-delay: 1.6s; }
+#demo-mandate .terminal-line:nth-child(5)  { animation-delay: 2.2s; }
+#demo-mandate .terminal-line:nth-child(6)  { animation-delay: 2.8s; }
+#demo-mandate .terminal-line:nth-child(7)  { animation-delay: 3.2s; }
+#demo-mandate .terminal-line:nth-child(8)  { animation-delay: 3.6s; }
+#demo-mandate .terminal-line:nth-child(9)  { animation-delay: 4.2s; }
+#demo-mandate .terminal-line:nth-child(10) { animation-delay: 4.8s; }
+#demo-mandate .terminal-line:nth-child(11) { animation-delay: 5.2s; }
+#demo-mandate .terminal-line:nth-child(12) { animation-delay: 5.6s; }
+#demo-mandate .terminal-line:nth-child(13) { animation-delay: 6.2s; }
+#demo-mandate .terminal-line:nth-child(14) { animation-delay: 6.6s; }
+
+/* blocked/filled flash delays for demo 1 */
+#demo-mandate .blocked-line { animation-delay: 3.2s; }
+#demo-mandate .filled-line:nth-child(10) { animation-delay: 4.8s; }
+#demo-mandate .filled-line:nth-child(11) { animation-delay: 5.2s; }
+#demo-mandate .filled-line:nth-child(12) { animation-delay: 5.6s; }
+
+/* ── Demo 2: Event-Triggered Rebalancing (25 lines) ── */
+#demo-event .terminal-line:nth-child(1)  { animation-delay: 0.2s; }
+#demo-event .terminal-line:nth-child(2)  { animation-delay: 0.5s; }
+#demo-event .terminal-line:nth-child(3)  { animation-delay: 0.7s; }
+#demo-event .terminal-line:nth-child(4)  { animation-delay: 0.9s; }
+#demo-event .terminal-line:nth-child(5)  { animation-delay: 1.6s; }
+#demo-event .terminal-line:nth-child(6)  { animation-delay: 2.2s; }
+#demo-event .terminal-line:nth-child(7)  { animation-delay: 2.8s; }
+#demo-event .terminal-line:nth-child(8)  { animation-delay: 3.2s; }
+#demo-event .terminal-line:nth-child(9)  { animation-delay: 3.6s; }
+#demo-event .terminal-line:nth-child(10) { animation-delay: 4.2s; }
+#demo-event .terminal-line:nth-child(11) { animation-delay: 4.8s; }
+#demo-event .terminal-line:nth-child(12) { animation-delay: 5.2s; }
+#demo-event .terminal-line:nth-child(13) { animation-delay: 5.5s; }
+#demo-event .terminal-line:nth-child(14) { animation-delay: 5.8s; }
+#demo-event .terminal-line:nth-child(15) { animation-delay: 6.4s; }
+#demo-event .terminal-line:nth-child(16) { animation-delay: 7.0s; }
+#demo-event .terminal-line:nth-child(17) { animation-delay: 7.4s; }
+#demo-event .terminal-line:nth-child(18) { animation-delay: 7.8s; }
+#demo-event .terminal-line:nth-child(19) { animation-delay: 8.4s; }
+#demo-event .terminal-line:nth-child(20) { animation-delay: 8.8s; }
+#demo-event .terminal-line:nth-child(21) { animation-delay: 9.2s; }
+#demo-event .terminal-line:nth-child(22) { animation-delay: 9.6s; }
+#demo-event .terminal-line:nth-child(23) { animation-delay: 10.2s; }
+#demo-event .terminal-line:nth-child(24) { animation-delay: 10.6s; }
+#demo-event .terminal-line:nth-child(25) { animation-delay: 11.2s; }
+
+/* blocked/filled flash delays for demo 2 */
+#demo-event .filled-line:nth-child(16) { animation-delay: 7.0s; }
+#demo-event .filled-line:nth-child(17) { animation-delay: 7.4s; }
+#demo-event .filled-line:nth-child(18) { animation-delay: 7.8s; }
+#demo-event .blocked-line { animation-delay: 8.8s; }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar { width: 6px; }

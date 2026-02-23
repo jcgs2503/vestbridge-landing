@@ -48,19 +48,21 @@ function initTabs(tabContainerId, panelPrefix, tabClass, panelClass, dataAttr, o
   });
 }
 
-// Install tabs
-const installSnippets = {
-  curl: `curl -sSL https://vestbridge.dev/install.sh | sh`,
-  pip: `pip install vestbridge`,
-  npm: `npx vestbridge`,
-  brew: `brew install vestbridge`,
-};
-
-let activeInstall = "curl";
-
-initTabs("install-tabs", "install-", "install-tab", "install-panel", "install", (key) => {
-  activeInstall = key;
+// --- Demo terminal tabs ---
+initTabs("demo-tabs", "demo-", "demo-tab", "demo-panel", "demo", (key) => {
+  // Replay animation: pause → force reflow → unpause
+  const panel = document.getElementById(`demo-${key}`);
+  if (!panel) return;
+  const lines = panel.querySelector(".demo-lines");
+  if (!lines) return;
+  lines.classList.add("paused");
+  // Force reflow so the browser registers the paused state
+  void lines.offsetWidth;
+  lines.classList.remove("paused");
 });
+
+// Install snippet (single block, no tabs)
+const installSnippet = `pip install vestbridge\nvestbridge init\nvestbridge serve --broker paper`;
 
 // Config client tabs
 const configFilenames = {
@@ -100,7 +102,7 @@ initTabs("config-tabs", "config-", "config-tab", "config-panel", "config", (key)
 });
 
 // Copy buttons
-initCopyButton("copy-install-btn", "copy-install-text", () => installSnippets[activeInstall]);
+initCopyButton("copy-install-btn", "copy-install-text", () => installSnippet);
 initCopyButton("copy-btn", "copy-text", () => configSnippets[activeConfig] || configSnippets.claude);
 
 // Form handling

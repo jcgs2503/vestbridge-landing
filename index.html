@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VestBridge — The Safe Way for AI Agents to Operate in Financial Markets</title>
-  <meta name="description" content="VestBridge is an open-source MCP server that connects AI agents to brokers with mandate enforcement, process isolation, and a tamper-evident audit trail. Define what your agent can trade, how much, and when. Open source, MIT License.">
+  <title>VestBridge — The Trust Layer for Agentic Trading</title>
+  <meta name="description" content="VestBridge connects AI agents to your brokerage with process isolation that prevents agents from tampering with mandates, audit logs, or broker credentials — even with full system access. Your agent can trade. It can't rewrite the rules.">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,10 +49,10 @@
           Open source &middot; Runs locally &middot; MIT License
         </div>
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-heading leading-tight tracking-tight">
-          Let your agents trade on your terms.
+          Let your agents trade with confidence.
         </h1>
         <p class="mt-6 text-lg sm:text-xl text-muted max-w-2xl leading-relaxed">
-          VestBridge is an open-source MCP server that connects AI agents to brokers like Robinhood and Interactive Brokers — with mandate enforcement, process isolation, and a tamper-evident audit trail. Define what your agent can trade, how much, and when. VestBridge runs as a separate process your agent can't access or modify. Every action is logged. Open source. MIT License.
+          VestBridge is an open-source trust layer for agentic trading. It connects AI agents to your brokerage and securely enforces guardrails on every trade regardless of what permissions your agent has.
         </p>
         <div class="mt-10 flex flex-wrap gap-4">
           <a href="#signup" class="inline-flex items-center px-6 py-3 rounded-lg bg-accent text-bg font-medium text-sm hover:bg-accent-hover transition-colors">
@@ -293,22 +293,142 @@
       <!-- Architecture diagram -->
       <div class="mt-12 glow rounded-xl border border-border overflow-hidden bg-surface">
         <div class="flex items-center gap-2 px-4 py-3 border-b border-border bg-bg/50">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent/60"></span>
           <span class="text-xs text-muted font-mono">process isolation architecture</span>
         </div>
-        <pre class="p-6 font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto"><code><span class="text-muted">┌──────────────────┐</span>       <span class="text-accent">MCP</span>        <span class="text-muted">┌─────────────────────┐</span>
-<span class="text-muted">│</span>   <span class="text-heading">AI Agent</span>        <span class="text-muted">│</span>  <span class="text-accent">◄──────────►</span>   <span class="text-muted">│</span>    <span class="text-heading">VestBridge</span>        <span class="text-muted">│</span>
-<span class="text-muted">│</span>                   <span class="text-muted">│</span>  <span class="text-muted">tools only</span>      <span class="text-muted">│</span>                      <span class="text-muted">│</span>
-<span class="text-muted">│</span>  <span class="text-text">Can call:</span>        <span class="text-muted">│</span>                  <span class="text-muted">│</span>  <span class="text-green-400">&#10003;</span> <span class="text-text">Mandate engine</span>    <span class="text-muted">│</span>
-<span class="text-muted">│</span>   <span class="text-accent">get_quote</span>       <span class="text-muted">│</span>                  <span class="text-muted">│</span>  <span class="text-green-400">&#10003;</span> <span class="text-text">Signed mandates</span>   <span class="text-muted">│</span>
-<span class="text-muted">│</span>   <span class="text-accent">place_order</span>     <span class="text-muted">│</span>                  <span class="text-muted">│</span>  <span class="text-green-400">&#10003;</span> <span class="text-text">Audit trail</span>       <span class="text-muted">│</span>
-<span class="text-muted">│</span>   <span class="text-accent">get_positions</span>   <span class="text-muted">│</span>                  <span class="text-muted">│</span>  <span class="text-green-400">&#10003;</span> <span class="text-text">Broker credentials</span><span class="text-muted">│</span>
-<span class="text-muted">│</span>                   <span class="text-muted">│</span>                  <span class="text-muted">│</span>                      <span class="text-muted">│</span>
-<span class="text-muted">│</span>  <span class="text-text">Cannot access:</span>   <span class="text-muted">│</span>                  <span class="text-muted">│</span>  <span class="text-text">Separate process</span>   <span class="text-muted">│</span>
-<span class="text-muted">│</span>   <span class="text-red-400">&#10007;</span> <span class="text-muted">Mandates</span>      <span class="text-muted">│</span>                  <span class="text-muted">│</span>  <span class="text-text">Own permissions</span>    <span class="text-muted">│</span>
-<span class="text-muted">│</span>   <span class="text-red-400">&#10007;</span> <span class="text-muted">Audit log</span>     <span class="text-muted">│</span>                  <span class="text-muted">│</span>  <span class="text-text">Read-only codebase</span> <span class="text-muted">│</span>
-<span class="text-muted">│</span>   <span class="text-red-400">&#10007;</span> <span class="text-muted">Source code</span>   <span class="text-muted">│</span>                  <span class="text-muted">│</span>                      <span class="text-muted">│</span>
-<span class="text-muted">│</span>   <span class="text-red-400">&#10007;</span> <span class="text-muted">Credentials</span>   <span class="text-muted">│</span>                  <span class="text-muted">│</span>                      <span class="text-muted">│</span>
-<span class="text-muted">└──────────────────┘</span>                  <span class="text-muted">└─────────────────────┘</span></code></pre>
+
+        <div class="p-6 sm:p-8">
+          <!-- Three-column layout: Agent | Bridge | VestBridge -->
+          <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-0 items-stretch">
+
+            <!-- Left: AI Agent -->
+            <div class="rounded-xl border border-border bg-bg/80 p-5 sm:p-6 flex flex-col">
+              <div class="flex items-center gap-3 mb-5">
+                <div class="w-8 h-8 rounded-lg bg-border flex items-center justify-center shrink-0">
+                  <svg class="w-4 h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-2.47 2.47a2.25 2.25 0 01-1.591.659H9.061a2.25 2.25 0 01-1.591-.659L5 14.5m14 0V7.12a4.5 4.5 0 00-3.88-4.456" />
+                  </svg>
+                </div>
+                <h4 class="text-sm font-semibold text-heading uppercase tracking-wider">AI Agent</h4>
+              </div>
+
+              <!-- Shell access -->
+              <div class="mb-5">
+                <div class="flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-border/50 border border-border">
+                  <span class="text-muted text-xs">User-level shell access</span>
+                </div>
+              </div>
+
+              <!-- Can call -->
+              <div class="mb-5">
+                <span class="text-[10px] font-semibold uppercase tracking-widest text-accent/70 mb-2 block">Can call</span>
+                <div class="space-y-1.5">
+                  <div class="flex items-center gap-2 px-3 py-1.5 rounded-md bg-accent/5 border border-accent/10">
+                    <span class="text-accent text-xs font-mono">get_quote</span>
+                  </div>
+                  <div class="flex items-center gap-2 px-3 py-1.5 rounded-md bg-accent/5 border border-accent/10">
+                    <span class="text-accent text-xs font-mono">place_order</span>
+                  </div>
+                  <div class="flex items-center gap-2 px-3 py-1.5 rounded-md bg-accent/5 border border-accent/10">
+                    <span class="text-accent text-xs font-mono">get_positions</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cannot access -->
+              <div class="mt-auto">
+                <span class="text-[10px] font-semibold uppercase tracking-widest text-red-400/70 mb-2 block">Cannot access</span>
+                <div class="space-y-1.5">
+                  <div class="flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-red-400/[0.03] border border-red-400/10">
+                    <span class="text-red-400/60 text-xs">&#10007;</span>
+                    <span class="text-muted text-xs">Mandates</span>
+                  </div>
+                  <div class="flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-red-400/[0.03] border border-red-400/10">
+                    <span class="text-red-400/60 text-xs">&#10007;</span>
+                    <span class="text-muted text-xs">Audit log</span>
+                  </div>
+                  <div class="flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-red-400/[0.03] border border-red-400/10">
+                    <span class="text-red-400/60 text-xs">&#10007;</span>
+                    <span class="text-muted text-xs">Source code</span>
+                  </div>
+                  <div class="flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-red-400/[0.03] border border-red-400/10">
+                    <span class="text-red-400/60 text-xs">&#10007;</span>
+                    <span class="text-muted text-xs">Credentials</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Center: MCP bridge connector -->
+            <div class="flex md:flex-col items-center justify-center px-2 py-4 md:py-0 md:px-6">
+              <!-- Horizontal line (mobile) / Vertical line (desktop) -->
+              <div class="hidden md:flex flex-col items-center gap-2 h-full justify-center">
+                <div class="w-px flex-1 bg-gradient-to-b from-transparent via-accent/40 to-transparent"></div>
+                <div class="flex flex-col items-center gap-1.5 py-2">
+                  <svg class="w-3.5 h-3.5 text-accent/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                  <div class="px-3 py-1.5 rounded-full border border-accent/20 bg-accent/[0.06]">
+                    <span class="text-[10px] font-semibold text-accent uppercase tracking-widest">MCP</span>
+                  </div>
+                  <span class="text-[10px] text-muted/60 whitespace-nowrap">tools only</span>
+                  <svg class="w-3.5 h-3.5 text-accent/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </div>
+                <div class="w-px flex-1 bg-gradient-to-b from-transparent via-accent/40 to-transparent"></div>
+              </div>
+              <!-- Mobile horizontal connector -->
+              <div class="flex md:hidden items-center gap-2 w-full justify-center">
+                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-accent/40 to-transparent"></div>
+                <div class="flex items-center gap-2 px-1">
+                  <svg class="w-3 h-3 text-accent/60 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                  <div class="px-3 py-1.5 rounded-full border border-accent/20 bg-accent/[0.06]">
+                    <span class="text-[10px] font-semibold text-accent uppercase tracking-widest">MCP</span>
+                  </div>
+                  <svg class="w-3 h-3 text-accent/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </div>
+                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-accent/40 to-transparent"></div>
+              </div>
+            </div>
+
+            <!-- Right: VestBridge -->
+            <div class="rounded-xl border border-accent/20 bg-bg/80 p-5 sm:p-6 flex flex-col relative overflow-hidden">
+              <!-- Subtle accent glow in corner -->
+              <div class="absolute -top-12 -right-12 w-32 h-32 bg-accent/[0.04] rounded-full blur-2xl pointer-events-none"></div>
+
+              <div class="relative flex items-center gap-3 mb-5">
+                <div class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+                  <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <h4 class="text-sm font-semibold text-heading uppercase tracking-wider">VestBridge</h4>
+              </div>
+
+              <!-- Controls -->
+              <div class="relative mb-5">
+                <span class="text-[10px] font-semibold uppercase tracking-widest text-green-400/70 mb-2 block">Controls</span>
+                <div class="space-y-1.5">
+                  <div class="flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-green-400/[0.04] border border-green-400/10">
+                    <span class="text-green-400/70 text-xs">&#10003;</span>
+                    <span class="text-text text-xs">Mandate engine</span>
+                  </div>
+                  <div class="flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-green-400/[0.04] border border-green-400/10">
+                    <span class="text-green-400/70 text-xs">&#10003;</span>
+                    <span class="text-text text-xs">Signed mandates</span>
+                  </div>
+                  <div class="flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-green-400/[0.04] border border-green-400/10">
+                    <span class="text-green-400/70 text-xs">&#10003;</span>
+                    <span class="text-text text-xs">Audit trail</span>
+                  </div>
+                  <div class="flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-green-400/[0.04] border border-green-400/10">
+                    <span class="text-green-400/70 text-xs">&#10003;</span>
+                    <span class="text-text text-xs">Broker credentials</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
       </div>
 
       <!-- Security points -->

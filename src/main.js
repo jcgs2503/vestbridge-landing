@@ -49,16 +49,12 @@ function initTabs(tabContainerId, panelPrefix, tabClass, panelClass, dataAttr, o
 }
 
 // --- Demo terminal tabs ---
+// On any tab switch, skip animations — show all lines instantly
 initTabs("demo-tabs", "demo-", "demo-tab", "demo-panel", "demo", (key) => {
-  // Replay animation: pause → force reflow → unpause
-  const panel = document.getElementById(`demo-${key}`);
-  if (!panel) return;
-  const lines = panel.querySelector(".demo-lines");
-  if (!lines) return;
-  lines.classList.add("paused");
-  // Force reflow so the browser registers the paused state
-  void lines.offsetWidth;
-  lines.classList.remove("paused");
+  // Mark all demo panels as "played" so lines show without animation
+  document.querySelectorAll(".demo-lines").forEach((lines) => {
+    lines.classList.add("played");
+  });
 });
 
 // Install snippet (single block, no tabs)
